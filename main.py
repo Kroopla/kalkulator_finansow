@@ -2,12 +2,28 @@ from openpyxl.reader.excel import load_workbook
 
 wb = load_workbook("test.xlsx")
 ws = wb.active
+petla = True
+def dodaj():
+    print("\nProgramistyczna dupa\n")
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def wyswietl_wszystko():
+    for x in range(3, 3+int(ws["D1"].value)):
+        print(str(ws["A" + str(x)].value))
 
 
-# Press the green button in the gutter to run the script.
+
 if __name__ == '__main__':
-    print(ws["A1"].value)
+    while petla:
+        print("Saldo:" + str(ws["A2"].value))
+        n = int(input("Co chcesz zrobić?\n"
+                    "1. Dodaj wydatek lub przychód\n"
+                    "2. Wyświetl wszystkie wydatki\n"
+                    "0. Zakończ program\n"))
+        if n == 1:
+            dodaj()
+        elif n == 2:
+            wyswietl_wszystko()
+        elif n == 0:
+            print("PaPa...\n")
+            exit()
+    wb.save("test.xlsx")
