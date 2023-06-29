@@ -4,18 +4,24 @@ wb = load_workbook("test.xlsx")
 ws = wb.active
 petla = True
 def dodaj():
-    print("\nProgramistyczna dupa\n")
     kwota = input("Podaj kwote: ")
     data = input("Data: ")
+    kategoria = input("Kategoria: ")
+    opis = input("Opis: ")
+
     ws["A" + str(3+int(ws["D1"].value))] = int(kwota)
     ws["B" + str(3+int(ws["D1"].value))] = str(data)
+    ws["C" + str(3+int(ws["D1"].value))] = str(kategoria)
+    ws["D" + str(3+int(ws["D1"].value))] = str(opis)
+
     ws["D1"] = int(ws["D1"].value) + 1
     ws["B1"] = int(ws["B1"].value) + int(kwota)
     wb.save("test.xlsx")
 
 def wyswietl_wszystko():
-    for x in range(3, 3+int(ws["D1"].value)):
-        print(str(ws["A" + str(x)].value) + ", " + str(ws["B" + str(x)].value))
+    for x in range(2, 3+int(ws["D1"].value)):
+        print(str(ws["A" + str(x)].value) + ", " + str(ws["B" + str(x)].value) + ", " +
+              str(ws["C" + str(x)].value) + ", " + str(ws["D" + str(x)].value))
 
 def wyczysc_wszystko():
     for x in range(3, 3+int(ws["D1"].value)):
