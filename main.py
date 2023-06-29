@@ -17,7 +17,12 @@ def wyswietl_wszystko():
     for x in range(3, 3+int(ws["D1"].value)):
         print(str(ws["A" + str(x)].value) + ", " + str(ws["B" + str(x)].value))
 
-
+def wyczysc_wszystko():
+    for x in range(3, 3+int(ws["D1"].value)):
+        ws.delete_rows(3)
+        ws["D1"] = 0
+        ws["B1"] = 0
+    wb.save("test.xlsx")
 
 if __name__ == '__main__':
     while petla:
@@ -25,11 +30,14 @@ if __name__ == '__main__':
         n = int(input("Co chcesz zrobić?\n"
                     "1. Dodaj wydatek lub przychód\n"
                     "2. Wyświetl wszystkie wydatki\n"
+                    "3. Wyczyść cały kalkulator\n"
                     "0. Zakończ program\n"))
         if n == 1:
             dodaj()
         elif n == 2:
             wyswietl_wszystko()
+        elif n == 3:
+            wyczysc_wszystko()
         elif n == 0:
             print("PaPa...\n")
             exit()
