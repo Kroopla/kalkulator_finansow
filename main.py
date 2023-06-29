@@ -1,58 +1,90 @@
 from openpyxl.reader.excel import load_workbook
+import datetime
+
 
 wb = load_workbook("test.xlsx")
 ws = wb.active
+
+
 def dodaj():
     kwota = input("Podaj kwote: ")
     data = input("Data: ")
     kategoria = input("Kategoria: ")
     opis = input("Opis: ")
 
-    ws["A" + str(3+int(ws["D1"].value))] = int(kwota)
-    ws["B" + str(3+int(ws["D1"].value))] = str(data)
-    ws["C" + str(3+int(ws["D1"].value))] = str(kategoria)
-    ws["D" + str(3+int(ws["D1"].value))] = str(opis)
+    ws["A" + str(3 + int(ws["D1"].value))] = int(kwota)
+    ws["B" + str(3 + int(ws["D1"].value))] = str(data)
+    ws["C" + str(3 + int(ws["D1"].value))] = str(kategoria)
+    ws["D" + str(3 + int(ws["D1"].value))] = str(opis)
 
     ws["D1"] = int(ws["D1"].value) + 1
     ws["B1"] = int(ws["B1"].value) + int(kwota)
     wb.save("test.xlsx")
 
+
 def wyswietl_wszystko():
     print(str(ws["A2"].value) + "\t" + str(ws["B2"].value) + "\t\t" + str(ws["C2"].value) + "\t" + str(ws["D2"].value))
-    for x in range(3, 3+int(ws["D1"].value)):
+    for x in range(3, 3 + int(ws["D1"].value)):
         print(str(ws["A" + str(x)].value) + ",\t" + str(ws["B" + str(x)].value) + ",\t" +
               str(ws["C" + str(x)].value) + ",\t\t" + str(ws["D" + str(x)].value))
 
 def wyczysc_wszystko():
-    for x in range(3, 3+int(ws["D1"].value)):
+    for x in range(3, 3 + int(ws["D1"].value)):
         ws.delete_rows(3)
         ws["D1"] = 0
         ws["B1"] = 0
     wb.save("test.xlsx")
 
 def szukaj_data():
-    data = input("Data: ")
-    for x in range(3, 3+int(ws["D1"].value)):
-        s = str(ws["B" + str(x)].value)
-        if s == data:
-            print(s)
+    dzien = input("Dzień: ")
+    miesiac = input("Miesiąc: ")
+    rok = input("Rok: ")
+    print(str(ws["A2"].value) + "\t" + str(ws["B2"].value) + "\t\t" + str(ws["C2"].value) + "\t" + str(ws["D2"].value))
+    for x in range(3, 3 + int(ws["D1"].value)):
+        if dzien =="" and miesiac == "" and rok == str(ws["B" + str(x)].value)[6:10]:
+            print(str(ws["A" + str(x)].value) + ",\t" + str(ws["B" + str(x)].value) + ",\t" +
+                  str(ws["C" + str(x)].value) + ",\t\t" + str(ws["D" + str(x)].value))
+        elif dzien =="" and miesiac == str(ws["B" + str(x)].value)[3:5] and rok == str(ws["B" + str(x)].value)[6:10]:
+            print(str(ws["A" + str(x)].value) + ",\t" + str(ws["B" + str(x)].value) + ",\t" +
+                  str(ws["C" + str(x)].value) + ",\t\t" + str(ws["D" + str(x)].value))
+        elif dzien ==str(ws["B" + str(x)].value)[0:2] and miesiac == str(ws["B" + str(x)].value)[3:5] and rok == str(ws["B" + str(x)].value)[6:10]:
+            print(str(ws["A" + str(x)].value) + ",\t" + str(ws["B" + str(x)].value) + ",\t" +
+                  str(ws["C" + str(x)].value) + ",\t\t" + str(ws["D" + str(x)].value))
 
 def szukaj_kategoria():
-    data = input("Data: ")
-    for x in range(3, 3+int(ws["D1"].value)):
-        s = str(ws["B" + str(x)].value)
-        if s == data:
-            print(s)
+    kategoria = input("Karegoria: ")
+    print(str(ws["A2"].value) + "\t" + str(ws["B2"].value) + "\t\t" + str(ws["C2"].value) + "\t" + str(ws["D2"].value))
+    for x in range(3, 3 + int(ws["D1"].value)):
+        if kategoria == str(ws["C" + str(x)].value):
+            print(str(ws["A" + str(x)].value) + ",\t" + str(ws["B" + str(x)].value) + ",\t" +
+                  str(ws["C" + str(x)].value) + ",\t\t" + str(ws["D" + str(x)].value))
+
+def okres():
+    dzien_p = int(input("Dzień początkowy: "))
+    miesiac_p = int(input("Miesiąc początkowy: "))
+    rok_p = int(input("Rok początkowy: "))
+    data_p = datetime.date(rok_p,miesiac_p,dzien_p)
+
+    dzien_k = int(input("Dzień końcowy: "))
+    miesiac_k = int(input("Miesiąc końcowy: "))
+    rok_k = int(input("Rok końcowy: "))
+    data_k = datetime.date(rok_k,miesiac_k,dzien_k)
+    print(str(ws["A2"].value) + "\t" + str(ws["B2"].value) + "\t\t" + str(ws["C2"].value) + "\t" + str(ws["D2"].value))
+    for x in range(3, 3 + int(ws["D1"].value)):
+        data_x = datetime.date(int(str(ws["B" + str(x)].value)[6:10]) ,int(str(ws["B" + str(x)].value)[3:5]),
+                               int(str(ws["B" + str(x)].value)[0:2]))
+        if data_x >= data_p and data_x<= data_k:
+            print(str(ws["A" + str(x)].value) + ",\t" + str(ws["B" + str(x)].value) + ",\t" +
+                  str(ws["C" + str(x)].value) + ",\t\t" + str(ws["D" + str(x)].value))
 
 if __name__ == '__main__':
     while True:
-        # print("\nSaldo:" + str(ws["B1"].value))
         n = input("\nCo chcesz zrobić?\n"
-                    "1. Dodaj wydatek\n"
-                    "2. Wyświetl wszystkie wydatki\n"
-                    "3. Szukaj\n"
-                    "9. Wyczyść cały kalkulator\n"
-                    "0. Zakończ program\n")
+                  "1. Dodaj wydatek\n"
+                  "2. Wyświetl wszystkie wydatki\n"
+                  "3. Szukaj\n"
+                  "9. Wyczyść cały kalkulator\n"
+                  "0. Zakończ program\n")
         if n == "1":
             dodaj()
         elif n == "2":
@@ -66,7 +98,7 @@ if __name__ == '__main__':
             if s == "1":
                 szukaj_data()
             elif s == "2":
-                szukaj_data()
+                okres()
             elif s == "3":
                 szukaj_kategoria()
             else:
