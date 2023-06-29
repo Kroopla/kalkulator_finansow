@@ -2,7 +2,6 @@ from openpyxl.reader.excel import load_workbook
 
 wb = load_workbook("test.xlsx")
 ws = wb.active
-petla = True
 def dodaj():
     kwota = input("Podaj kwote: ")
     data = input("Data: ")
@@ -31,27 +30,61 @@ def wyczysc_wszystko():
         ws["B1"] = 0
     wb.save("test.xlsx")
 
+def szukaj_data():
+    data = input("Data: ")
+    for x in range(3, 3+int(ws["D1"].value)):
+        s = str(ws["B" + str(x)].value)
+        if s == data:
+            print(s)
+
+def szukaj_kategoria():
+    data = input("Data: ")
+    for x in range(3, 3+int(ws["D1"].value)):
+        s = str(ws["B" + str(x)].value)
+        if s == data:
+            print(s)
+
 if __name__ == '__main__':
-    while petla:
-        print("\nSaldo:" + str(ws["B1"].value))
-        n = int(input("Co chcesz zrobić?\n"
+    while True:
+        # print("\nSaldo:" + str(ws["B1"].value))
+        n = input("\nCo chcesz zrobić?\n"
                     "1. Dodaj wydatek\n"
                     "2. Wyświetl wszystkie wydatki\n"
+                    "3. Szukaj\n"
                     "9. Wyczyść cały kalkulator\n"
-                    "0. Zakończ program\n"))
-        if n == 1:
+                    "0. Zakończ program\n")
+        if n == "1":
             dodaj()
-        elif n == 2:
+        elif n == "2":
             wyswietl_wszystko()
-        elif n == 9:
-            print("Na pewno chcesz wyczyścić całą historię? Sracisz w ten sposób wszyskie dane")
-            w = int(input("1. Nie! Nie chcę stracić moich cennych danych\n"
-                          "9. Tak, chcę wyczyścić całą historię i zacząć od zera\n"))
-            if w == 9:
-                wyczysc_wszystko()
-            elif n == 1:
+        elif n == "3":
+            print("Chcę szukać po:")
+            s = input("1. Dacie\n"
+                      "2. Okresie\n"
+                      "3. Kategorii\n"
+                      "(Dowolna wartość) Wróć\n")
+            if s == "1":
+                szukaj_data()
+            elif s == "2":
+                szukaj_data()
+            elif s == "3":
+                szukaj_kategoria()
+            else:
                 continue
-        elif n == 0:
-            print("PaPa...\n")
+
+        elif n == "9":
+            print("Na pewno chcesz wyczyścić całą historię? Sracisz w ten sposób wszyskie dane")
+            w = input("(Dowolna wartość) Nie! Nie chcę stracić moich cennych danych\n"
+                      "9. Tak, chcę wyczyścić całą historię i zacząć od zera\n")
+            if w == "9":
+                wyczysc_wszystko()
+            else:
+                continue
+
+        elif n == "0":
+            print("\nPaPa...\n")
             exit()
+
+        else:
+            print("Podano złą wartość!\n")
     wb.save("test.xlsx")
