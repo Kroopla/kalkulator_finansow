@@ -1,6 +1,7 @@
 Programowanie III, laboratorium – Projekt
 Kalkulator wydatków
 Szymon Kroplewski 300200
+https://github.com/Kroopla/kalkulator_finansow
 
 Na starcie aplikacji wita nas menu:
 

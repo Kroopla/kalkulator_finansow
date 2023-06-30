@@ -1,3 +1,5 @@
+# https://github.com/Kroopla/kalkulator_finansow
+
 from openpyxl.reader.excel import load_workbook
 import datetime
 import matplotlib.pyplot as plt
@@ -163,7 +165,8 @@ def wykres():
     print("Statystiki tekstowo:")
     print(p.describe())
 
-#Odpowiada za działanie menu
+
+# Odpowiada za działanie menu
 if __name__ == '__main__':
     while True:
         n = input("\nCo chcesz zrobić?\n"
