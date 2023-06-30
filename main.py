@@ -33,17 +33,20 @@ def dodaj():
     ws["E2"] = int(ws["E2"].value) + 1
     wb.save("test.xlsx")
 
-#Fukncja wyświetlająca nagłówki kolumn
+
+# Fukncja wyświetlająca nagłówki kolumn
 def naglowki():
     print(
         str(ws["A1"].value) + "\t" + str(ws["B1"].value) + "\t\t\t" + str(ws["C1"].value) + "\t" + str(ws["D1"].value))
 
-#Fukncja wyświetlająca wartości w podanym wierszu
+
+# Fukncja wyświetlająca wartości w podanym wierszu
 def wyswietl(x):
     print(str(ws["A" + str(x)].value) + ";\t" + str(ws["B" + str(x)].value) + ";\t\t" +
           str(ws["C" + str(x)].value) + ";\t\t" + str(ws["D" + str(x)].value))
 
-#Funkcja, która czyści całą bazę
+
+# Funkcja, która czyści całą bazę
 def wyczysc_wszystko():
     for x in range(2, 2 + int(ws["E2"].value)):
         ws.delete_rows(2)
@@ -51,7 +54,8 @@ def wyczysc_wszystko():
     ws["E2"] = 0
     wb.save("test.xlsx")
 
-#Fukncja szukająca wpisu po zadanej dacie, miesiącu lub w danym roku
+
+# Fukncja szukająca wpisu po zadanej dacie, miesiącu lub w danym roku
 def szukaj_data():
     dzien = input("Dzień: ")
     if int(dzien) <= 0 or int(dzien) >= 32:
@@ -76,6 +80,7 @@ def szukaj_data():
             wyswietl(x)
 
 
+# Fukncja szukająca wpisu po zadanym okresie
 def okres():
     dzien_p = int(input("Dzień początkowy: "))
     miesiac_p = int(input("Miesiąc początkowy: "))
@@ -95,6 +100,7 @@ def okres():
             wyswietl(x)
 
 
+# Fukncja szukająca wpisu po zadanej kategorii
 def szukaj_kategoria():
     kat = []
     print("Aktualne dostępne kategorie:")
@@ -110,6 +116,7 @@ def szukaj_kategoria():
             wyswietl(x)
 
 
+# Funckaj rusyjąca wykresy i statystyki
 def wykres():
     x = []
     y = []
@@ -140,9 +147,9 @@ def wykres():
             x.append(str(ws["B" + str(n)].value))
             y.append(int(ws["A" + str(n)].value))
     if wyk == "1":
-        plt.plot(x, y)
+        plt.plot(x, y)  # Wykres liniowy
     elif wyk == "2":
-        plt.bar(x, y)
+        plt.bar(x, y)  # Wykres słupkowy
 
     plt.xlabel("Data")
     plt.ylabel("Kwota")
@@ -156,7 +163,7 @@ def wykres():
     print("Statystiki tekstowo:")
     print(p.describe())
 
-
+#Odpowiada za działanie menu
 if __name__ == '__main__':
     while True:
         n = input("\nCo chcesz zrobić?\n"
