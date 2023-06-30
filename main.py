@@ -1,6 +1,5 @@
 from openpyxl.reader.excel import load_workbook
 import datetime
-import numpy as np
 import matplotlib.pyplot as plt
 
 wb = load_workbook("test.xlsx")
