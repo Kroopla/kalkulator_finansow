@@ -199,7 +199,7 @@ if __name__ == '__main__':
             wykres()
         elif n == "9":
             print("Na pewno chcesz wyczyścić całą historię? Sracisz w ten sposób wszyskie dane")
-            w = input("(Dowolna wartość) Nie! Nie chcę stracić moich cennych danych\n"
+            w = input("(Dowolna wartość) Nie! Nie chcę stracić moich cennych danych!\n"
                       "9. Tak, chcę wyczyścić całą historię i zacząć od zera\n")
             if w == "9":
                 wyczysc_wszystko()
