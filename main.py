@@ -2,6 +2,7 @@ from openpyxl.reader.excel import load_workbook
 import datetime
 import matplotlib.pyplot as plt
 
+
 wb = load_workbook("test.xlsx")
 ws = wb.active
 
@@ -20,6 +21,9 @@ def dodaj():
     ws["D1"] = int(ws["D1"].value) + 1
     ws["B1"] = int(ws["B1"].value) + int(kwota)
     wb.save("test.xlsx")
+
+def naglowki():
+    print(str(ws["A2"].value) + "\t" + str(ws["B2"].value) + "\t\t" + str(ws["C2"].value) + "\t" + str(ws["D2"].value))
 
 
 def wyswietl(x):
@@ -40,7 +44,7 @@ def szukaj_data():
     dzien = input("Dzień: ")
     miesiac = input("Miesiąc: ")
     rok = input("Rok: ")
-    print(str(ws["A2"].value) + "\t" + str(ws["B2"].value) + "\t\t" + str(ws["C2"].value) + "\t" + str(ws["D2"].value))
+    naglowki()
     for x in range(3, 3 + int(ws["D1"].value)):
         if dzien == "" and miesiac == "" and rok == str(ws["B" + str(x)].value)[6:10]:
             wyswietl(x)
@@ -62,7 +66,7 @@ def okres():
     rok_k = int(input("Rok końcowy: "))
     data_k = datetime.date(rok_k, miesiac_k, dzien_k)
 
-    print(str(ws["A2"].value) + "\t" + str(ws["B2"].value) + "\t\t" + str(ws["C2"].value) + "\t" + str(ws["D2"].value))
+    naglowki()
     for x in range(3, 3 + int(ws["D1"].value)):
         data_x = datetime.date(int(str(ws["B" + str(x)].value)[6:10]), int(str(ws["B" + str(x)].value)[3:5]),
                                int(str(ws["B" + str(x)].value)[0:2]))
@@ -72,7 +76,7 @@ def okres():
 
 def szukaj_kategoria():
     kategoria = input("Karegoria: ")
-    print(str(ws["A2"].value) + "\t" + str(ws["B2"].value) + "\t\t" + str(ws["C2"].value) + "\t" + str(ws["D2"].value))
+    naglowki()
     for x in range(3, 3 + int(ws["D1"].value)):
         if kategoria == str(ws["C" + str(x)].value):
             wyswietl(x)
@@ -126,8 +130,7 @@ if __name__ == '__main__':
         if n == "1":
             dodaj()
         elif n == "2":
-            print(str(ws["A2"].value) + "\t" + str(ws["B2"].value) + "\t\t" +
-                  str(ws["C2"].value) + "\t" + str(ws["D2"].value))
+            naglowki()
             for x in range(3, 3 + int(ws["D1"].value)):
                 wyswietl(x)
         elif n == "3":
