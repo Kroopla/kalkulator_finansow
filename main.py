@@ -7,8 +7,9 @@ wb = load_workbook("test.xlsx")
 ws = wb.active
 
 
+# Fukncja dodająca rekordydo pliku .xlsx
 def dodaj():
-    kwota =     input("Podaj kwote: ")
+    kwota = input("Podaj kwote: ")
     dzien = input("Dzień: ")
     if int(dzien) <= 0 or int(dzien) >= 32:
         print("Zły dzień")
@@ -22,7 +23,7 @@ def dodaj():
         print("Rok nie może być ujemy!")
         return
     kategoria = input("Kategoria: ")
-    opis =      input("Opis: ")
+    opis = input("Opis: ")
 
     ws["A" + str(2 + int(ws["E2"].value))] = int(kwota)
     ws["B" + str(2 + int(ws["E2"].value))] = str(dzien + "." + miesiac + "." + rok)
@@ -32,15 +33,17 @@ def dodaj():
     ws["E2"] = int(ws["E2"].value) + 1
     wb.save("test.xlsx")
 
+#Fukncja wyświetlająca nagłówki kolumn
 def naglowki():
-    print(str(ws["A1"].value) + "\t" + str(ws["B1"].value) + "\t\t\t" + str(ws["C1"].value) + "\t" + str(ws["D1"].value))
+    print(
+        str(ws["A1"].value) + "\t" + str(ws["B1"].value) + "\t\t\t" + str(ws["C1"].value) + "\t" + str(ws["D1"].value))
 
-
+#Fukncja wyświetlająca wartości w podanym wierszu
 def wyswietl(x):
     print(str(ws["A" + str(x)].value) + ";\t" + str(ws["B" + str(x)].value) + ";\t\t" +
           str(ws["C" + str(x)].value) + ";\t\t" + str(ws["D" + str(x)].value))
 
-
+#Funkcja, która czyści całą bazę
 def wyczysc_wszystko():
     for x in range(2, 2 + int(ws["E2"].value)):
         ws.delete_rows(2)
@@ -48,10 +51,10 @@ def wyczysc_wszystko():
     ws["E2"] = 0
     wb.save("test.xlsx")
 
-
+#Fukncja szukająca wpisu po zadanej dacie, miesiącu lub w danym roku
 def szukaj_data():
     dzien = input("Dzień: ")
-    if int(dzien) <= 0 or int(dzien) >=32:
+    if int(dzien) <= 0 or int(dzien) >= 32:
         print("Zły dzień")
         return
     miesiac = input("Miesiąc: ")
@@ -135,19 +138,24 @@ def wykres():
                                int(str(ws["B" + str(n)].value)[0:2]))
         if data_p <= data_x <= data_k:
             x.append(str(ws["B" + str(n)].value))
-            y.append(str(ws["A" + str(n)].value))
+            y.append(int(ws["A" + str(n)].value))
     if wyk == "1":
         plt.plot(x, y)
-    elif wyk =="2":
-        plt.bar(x,y)
-
+    elif wyk == "2":
+        plt.bar(x, y)
 
     plt.xlabel("Data")
     plt.ylabel("Kwota")
+    p_srednia = p["Kwota"].mean()
+    plt.axhline(p_srednia, color="red")
+    p_mediana = p["Kwota"].median()
+    plt.axhline(p_mediana, color="green")
+    p_dominanta = p.mode().iloc[0, 0]
+    plt.axhline(p_dominanta, color="pink")
     plt.show()
-    # p_srednia =
     print("Statystiki tekstowo:")
     print(p.describe())
+
 
 if __name__ == '__main__':
     while True:
