@@ -1,51 +1,69 @@
 from openpyxl.reader.excel import load_workbook
 import datetime
 import matplotlib.pyplot as plt
-
+import pandas as pd
 
 wb = load_workbook("test.xlsx")
 ws = wb.active
 
 
 def dodaj():
-    kwota = input("Podaj kwote: ")
-    data = input("Data: ")
+    kwota =     input("Podaj kwote: ")
+    dzien = input("Dzień: ")
+    if int(dzien) <= 0 or int(dzien) >= 32:
+        print("Zły dzień")
+        return
+    miesiac = input("Miesiąc: ")
+    if int(miesiac) <= 0 or int(miesiac) >= 13:
+        print("Zły miesiac")
+        return
+    rok = input("Rok: ")
+    if int(rok) <= 0:
+        print("Rok nie może być ujemy!")
+        return
     kategoria = input("Kategoria: ")
-    opis = input("Opis: ")
+    opis =      input("Opis: ")
 
-    ws["A" + str(3 + int(ws["D1"].value))] = int(kwota)
-    ws["B" + str(3 + int(ws["D1"].value))] = str(data)
-    ws["C" + str(3 + int(ws["D1"].value))] = str(kategoria)
-    ws["D" + str(3 + int(ws["D1"].value))] = str(opis)
+    ws["A" + str(2 + int(ws["E2"].value))] = int(kwota)
+    ws["B" + str(2 + int(ws["E2"].value))] = str(dzien + "." + miesiac + "." + rok)
+    ws["C" + str(2 + int(ws["E2"].value))] = str(kategoria)
+    ws["D" + str(2 + int(ws["E2"].value))] = str(opis)
 
-    ws["D1"] = int(ws["D1"].value) + 1
-    ws["B1"] = int(ws["B1"].value) + int(kwota)
+    ws["E2"] = int(ws["E2"].value) + 1
     wb.save("test.xlsx")
 
 def naglowki():
-    print(str(ws["A2"].value) + "\t" + str(ws["B2"].value) + "\t\t" + str(ws["C2"].value) + "\t" + str(ws["D2"].value))
+    print(str(ws["A1"].value) + "\t" + str(ws["B1"].value) + "\t\t\t" + str(ws["C1"].value) + "\t" + str(ws["D1"].value))
 
 
 def wyswietl(x):
-    print(str(ws["A" + str(x)].value) + ",\t" + str(ws["B" + str(x)].value) + ",\t" +
-          str(ws["C" + str(x)].value) + ",\t\t" + str(ws["D" + str(x)].value))
+    print(str(ws["A" + str(x)].value) + ";\t" + str(ws["B" + str(x)].value) + ";\t\t" +
+          str(ws["C" + str(x)].value) + ";\t\t" + str(ws["D" + str(x)].value))
 
 
 def wyczysc_wszystko():
-    for x in range(3, 3 + int(ws["D1"].value)):
-        ws.delete_rows(3)
+    for x in range(2, 2 + int(ws["E2"].value)):
+        ws.delete_rows(2)
 
-    ws["D1"] = 0
-    ws["B1"] = 0
+    ws["E2"] = 0
     wb.save("test.xlsx")
 
 
 def szukaj_data():
     dzien = input("Dzień: ")
+    if int(dzien) <= 0 or int(dzien) >=32:
+        print("Zły dzień")
+        return
     miesiac = input("Miesiąc: ")
+    if int(miesiac) <= 0 or int(miesiac) >= 13:
+        print("Zły miesiac")
+        return
     rok = input("Rok: ")
+    if int(rok) <= 0:
+        print("Rok nie może być ujemy!")
+        return
     naglowki()
-    for x in range(3, 3 + int(ws["D1"].value)):
+    for x in range(2, 2 + int(ws["E2"].value)):
         if dzien == "" and miesiac == "" and rok == str(ws["B" + str(x)].value)[6:10]:
             wyswietl(x)
         elif dzien == "" and miesiac == str(ws["B" + str(x)].value)[3:5] and rok == str(ws["B" + str(x)].value)[6:10]:
@@ -67,7 +85,7 @@ def okres():
     data_k = datetime.date(rok_k, miesiac_k, dzien_k)
 
     naglowki()
-    for x in range(3, 3 + int(ws["D1"].value)):
+    for x in range(2, 2 + int(ws["E2"].value)):
         data_x = datetime.date(int(str(ws["B" + str(x)].value)[6:10]), int(str(ws["B" + str(x)].value)[3:5]),
                                int(str(ws["B" + str(x)].value)[0:2]))
         if data_p <= data_x <= data_k:
@@ -75,9 +93,16 @@ def okres():
 
 
 def szukaj_kategoria():
-    kategoria = input("Karegoria: ")
+    kat = []
+    print("Aktualne dostępne kategorie:")
+    for k in range(2, 2 + int(ws["E2"].value)):
+        if str(ws["C" + str(k)].value) not in kat:
+            kat.append(str(ws["C" + str(k)].value))
+            print(str(ws["C" + str(k)].value))
+
+    kategoria = input("\nKaregoria do wyszukania: ")
     naglowki()
-    for x in range(3, 3 + int(ws["D1"].value)):
+    for x in range(2, 2 + int(ws["E2"].value)):
         if kategoria == str(ws["C" + str(x)].value):
             wyswietl(x)
 
@@ -103,7 +128,9 @@ def wykres():
     rok_k = int(input("Rok końcowy: "))
     data_k = datetime.date(rok_k, miesiac_k, dzien_k)
 
-    for n in range(3, 3 + int(ws["D1"].value)):
+    p = pd.read_excel("test.xlsx")
+
+    for n in range(2, 2 + int(ws["E2"].value)):
         data_x = datetime.date(int(str(ws["B" + str(n)].value)[6:10]), int(str(ws["B" + str(n)].value)[3:5]),
                                int(str(ws["B" + str(n)].value)[0:2]))
         if data_p <= data_x <= data_k:
@@ -113,10 +140,14 @@ def wykres():
         plt.plot(x, y)
     elif wyk =="2":
         plt.bar(x,y)
+
+
     plt.xlabel("Data")
     plt.ylabel("Kwota")
     plt.show()
-
+    # p_srednia =
+    print("Statystiki tekstowo:")
+    print(p.describe())
 
 if __name__ == '__main__':
     while True:
@@ -131,8 +162,9 @@ if __name__ == '__main__':
             dodaj()
         elif n == "2":
             naglowki()
-            for x in range(3, 3 + int(ws["D1"].value)):
+            for x in range(2, 2 + int(ws["E2"].value)):
                 wyswietl(x)
+            print("\nSuma wszystkich wydatków: " + str(ws["B1"].value))
         elif n == "3":
             print("Chcę szukać po:")
             s = input("1. Dacie\n"
