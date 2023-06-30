@@ -82,10 +82,36 @@ def szukaj_kategoria():
 def wykres():
     x = []
     y = []
-    for k in range(3, 3 + int(ws["D1"].value)):
-        x.append(str(ws["B" + str(k)].value))
-        y.append(str(ws["A" + str(k)].value))
-    plt.plot(x, y)
+
+    wyk = input("Wykres ma być:\n"
+                "1. Liniowy\n"
+                "2. Słupkowy\n"
+                "(Dowolna wartość) Powrót\n")
+    if wyk != "1" and wyk != "2":
+        return
+
+    dzien_p = int(input("Dzień początkowy: "))
+    miesiac_p = int(input("Miesiąc początkowy: "))
+    rok_p = int(input("Rok początkowy: "))
+    data_p = datetime.date(rok_p, miesiac_p, dzien_p)
+
+    dzien_k = int(input("Dzień końcowy: "))
+    miesiac_k = int(input("Miesiąc końcowy: "))
+    rok_k = int(input("Rok końcowy: "))
+    data_k = datetime.date(rok_k, miesiac_k, dzien_k)
+
+    for n in range(3, 3 + int(ws["D1"].value)):
+        data_x = datetime.date(int(str(ws["B" + str(n)].value)[6:10]), int(str(ws["B" + str(n)].value)[3:5]),
+                               int(str(ws["B" + str(n)].value)[0:2]))
+        if data_p <= data_x <= data_k:
+            x.append(str(ws["B" + str(n)].value))
+            y.append(str(ws["A" + str(n)].value))
+    if wyk == "1":
+        plt.plot(x, y)
+    elif wyk =="2":
+        plt.bar(x,y)
+    plt.xlabel("Data")
+    plt.ylabel("Kwota")
     plt.show()
 
 
